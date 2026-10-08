@@ -1,0 +1,71 @@
+import Link from "next/link";
+import Image from "next/image";
+import { ArrowRight, Building2, Bus, Trees } from "lucide-react";
+import { DemoNotice } from "@/components/demo-notice";
+import { EventGrid } from "@/components/events/event-grid";
+import { Hero } from "@/components/hero";
+import { getEvents } from "@/services/events";
+
+const categories = [
+  { href: "/agenda?category=musica", label: "Música", number: "01" },
+  { href: "/agenda?category=teatro", label: "Teatro", number: "02" },
+  { href: "/agenda?category=talleres", label: "Talleres", number: "03" },
+  { href: "/agenda?category=familia", label: "En familia", number: "04" },
+];
+
+export default async function HomePage() {
+  const events = await getEvents({ pageSize: 3 });
+
+  return (
+    <>
+      <Hero />
+      <div className="shell"><DemoNotice /></div>
+      <section className="section shell" aria-labelledby="next-events">
+        <div className="section-heading">
+          <div><p className="section-kicker">Agenda</p><h2 id="next-events">Próximos eventos</h2></div>
+          <Link href="/agenda">Ver agenda completa <ArrowRight size={18} /></Link>
+        </div>
+        <EventGrid events={events.items} />
+      </section>
+      <section className="category-section">
+        <div className="shell">
+          <div className="section-heading light">
+            <div><p className="section-kicker">Encontrá tu plan</p><h2>Explorá por categoría</h2></div>
+          </div>
+          <div className="category-list">
+            {categories.map((category) => (
+              <Link key={category.href} href={category.href}>
+                <span>{category.number}</span><strong>{category.label}</strong><ArrowRight aria-hidden="true" />
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+      <section className="section shell" aria-labelledby="places-title">
+        <div className="section-heading">
+          <div><p className="section-kicker">Recorré la ciudad</p><h2 id="places-title">Lugares que no te podés perder</h2></div>
+          <Link href="/lugares">Explorar lugares <ArrowRight size={18} /></Link>
+        </div>
+        <div className="places-feature">
+          <Link href="/espacios-culturales" className="place-large">
+            <Image src="/images/hero-cultura-smt.jpg" alt="Mural urbano en San Miguel de Tucumán" fill sizes="(max-width: 768px) 100vw, 65vw" />
+            <span><Building2 /> Espacios culturales <small>Arte, historia y encuentros</small></span>
+          </Link>
+          <div className="place-stack">
+            <Link href="/espacios-al-aire-libre"><Trees /><strong>Plazas y parques</strong><span>Disfrutá la ciudad al aire libre</span></Link>
+            <Link href="/bus-turistico"><Bus /><strong>Bus Turístico</strong><span>Conocé los circuitos de la ciudad</span></Link>
+          </div>
+        </div>
+      </section>
+      <section className="app-banner">
+        <div className="shell app-banner-inner">
+          <div><p className="section-kicker">Ciudad SMT</p><h2>La ciudad, también en tu celular</h2><p>Accedé a servicios municipales y novedades desde la aplicación oficial.</p></div>
+          <div className="app-actions">
+            <a className="button button-light" href="https://play.google.com/store/apps/details?id=ar.gob.smt.ciudadana&hl=es_AR" rel="noreferrer">Google Play</a>
+            <a className="button button-outline-light" href="https://apps.apple.com/ar/app/ciudad-smt/id6743326258" rel="noreferrer">App Store</a>
+          </div>
+        </div>
+      </section>
+    </>
+  );
+}
