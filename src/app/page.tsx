@@ -4,7 +4,12 @@ import { ArrowRight, Building2, Bus, Trees } from "lucide-react";
 import { DemoNotice } from "@/components/demo-notice";
 import { EventGrid } from "@/components/events/event-grid";
 import { Hero } from "@/components/hero";
+import { isDatabaseConfigured } from "@/lib/db";
+import { formatLongDate } from "@/lib/format";
 import { getEvents } from "@/services/events";
+
+// La portada se prerenderiza; se regenera cada 5 minutos para reflejar la agenda y la fecha del día.
+export const revalidate = 300;
 
 const categories = [
   { href: "/agenda?category=musica", label: "Música", number: "01" },
@@ -18,7 +23,7 @@ export default async function HomePage() {
 
   return (
     <>
-      <Hero />
+      <Hero todayLabel={formatLongDate(new Date())} hasOfficialData={isDatabaseConfigured} />
       <div className="shell"><DemoNotice /></div>
       <section className="section shell" aria-labelledby="next-events">
         <div className="section-heading">

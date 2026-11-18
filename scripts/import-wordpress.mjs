@@ -13,7 +13,7 @@ if (!input) {
   process.exit(1);
 }
 if (mode !== "dry-run") {
-  console.error("Esta primera entrega sólo admite dry-run. La escritura se habilitará al configurar un entorno Supabase de desarrollo.");
+  console.error("Esta primera entrega sólo admite dry-run. La escritura se habilitará contra una base PostgreSQL de desarrollo.");
   process.exit(2);
 }
 

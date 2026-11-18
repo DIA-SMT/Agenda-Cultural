@@ -1,8 +1,5 @@
+import { formatCalendarDate as icsDate } from "@/lib/format";
 import { getEventBySlug } from "@/services/events";
-
-function icsDate(value: string) {
-  return new Date(value).toISOString().replace(/[-:]/g, "").replace(/\.\d{3}/, "");
-}
 
 function escapeIcs(value: string) {
   return value.replace(/\\/g, "\\\\").replace(/,/g, "\\,").replace(/;/g, "\\;").replace(/\n/g, "\\n");

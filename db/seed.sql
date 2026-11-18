@@ -17,6 +17,8 @@ insert into public.event_categories (event_id, category_id) values
   ('30000000-0000-0000-0000-000000000001', '10000000-0000-0000-0000-000000000001')
 on conflict do nothing;
 
+-- Fechas relativas al día en que se corre el seed, para que la agenda (que oculta lo pasado) muestre algo.
 insert into public.event_occurrences (id, event_id, starts_at, ends_at) values
-  ('40000000-0000-0000-0000-000000000001', '30000000-0000-0000-0000-000000000001', '2026-09-18 20:00:00-03', '2026-09-18 22:00:00-03')
+  ('40000000-0000-0000-0000-000000000001', '30000000-0000-0000-0000-000000000001', (current_date + 3 + time '20:00') at time zone 'America/Argentina/Tucuman', (current_date + 3 + time '22:00') at time zone 'America/Argentina/Tucuman'),
+  ('40000000-0000-0000-0000-000000000002', '30000000-0000-0000-0000-000000000001', (current_date + 10 + time '20:00') at time zone 'America/Argentina/Tucuman', (current_date + 10 + time '22:00') at time zone 'America/Argentina/Tucuman')
 on conflict (id) do nothing;
