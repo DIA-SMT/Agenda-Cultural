@@ -8,7 +8,8 @@ const P = 1;
 const KEY_LENGTH = 64;
 // scrypt necesita 128·N·r bytes (32 MB con estos parámetros); el máximo por defecto de Node es justo eso.
 const MAX_MEMORY = 64 * 1024 * 1024;
-export const MIN_PASSWORD_LENGTH = 12;
+// Corto a pedido del equipo; lo compensa el límite de intentos del ingreso (src/services/admin/accounts.ts).
+export const MIN_PASSWORD_LENGTH = 6;
 
 function derive(password, salt, n, r, p) {
   return new Promise((resolve, reject) => {
