@@ -302,6 +302,21 @@ button, a { -webkit-tap-highlight-color: transparent; }
 .occurrence-list span { display: grid; }
 .share-actions { display: flex; flex-wrap: wrap; gap: .7rem; }
 
+.detail-heading .section-kicker { color: var(--sky-300); }
+.place-sections { display: grid; gap: 4rem; padding-block: 4.5rem; }
+.place-sections .section-heading { margin-bottom: 1.4rem; }
+.place-sections .section-heading h2 { font-size: clamp(1.8rem, 3vw, 2.5rem); }
+.place-image { aspect-ratio: 4 / 3; }
+.place-summary { margin: 0 0 .9rem; color: var(--gray-600); }
+.place-services { margin: 0; padding-left: 1.2rem; display: grid; gap: .5rem; font-size: 1.05rem; color: #385067; }
+.place-gallery { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .75rem; }
+.place-gallery figure { position: relative; margin: 0; aspect-ratio: 4 / 3; overflow: hidden; border-radius: var(--radius-sm); background: var(--gray-100); }
+.place-gallery img { object-fit: cover; }
+.detail-main .event-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.detail-main p + p { margin-top: 1rem; }
+.event-facts em.place-hours { display: block; }
+.event-facts span a { width: fit-content; color: var(--blue-700); font-weight: 700; }
+
 @media (max-width: 900px) {
   .agenda-layout { grid-template-columns: 1fr; }
   .desktop-filter { display: none; }
@@ -327,4 +342,7 @@ button, a { -webkit-tap-highlight-color: transparent; }
   .detail-hero, .detail-heading { min-height: 560px; }
   .detail-heading { padding-top: 125px; }
   .detail-layout { padding-block: 2.5rem; }
+  .place-gallery { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .detail-main .event-grid { grid-template-columns: 1fr; }
+  .place-sections { gap: 3rem; padding-block: 3rem; }
 }

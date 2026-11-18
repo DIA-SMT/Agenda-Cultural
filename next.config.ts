@@ -1,4 +1,12 @@
 import type { NextConfig } from "next";
+import contenido from "./db/contenido/espacios-culturales.json";
+
+// En el sitio anterior cada espacio colgaba de la raíz (/casa-historica/); acá vive en /lugares/<slug>.
+const legacyPlaceRedirects = contenido.espacios.map(({ slug }) => ({
+  source: `/${slug}`,
+  destination: `/lugares/${slug}`,
+  permanent: true,
+}));
 
 const nextConfig: NextConfig = {
   allowedDevOrigins: ["127.0.0.1"],
@@ -18,7 +26,8 @@ const nextConfig: NextConfig = {
       { source: "/que-hacer/", destination: "/agenda", permanent: true },
       { source: "/bus-turistico-smt", destination: "/bus-turistico", permanent: true },
       { source: "/faqs", destination: "/preguntas-frecuentes", permanent: true },
-      { source: "/mapas-y-guias", destination: "/guias", permanent: true }
+      { source: "/mapas-y-guias", destination: "/guias", permanent: true },
+      ...legacyPlaceRedirects,
     ];
   },
 };

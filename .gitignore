@@ -31,3 +31,6 @@ pnpm-debug.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# fotos y archivos del contenido (MEDIA_DIR)
+/media
