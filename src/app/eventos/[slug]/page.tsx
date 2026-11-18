@@ -31,7 +31,7 @@ export default async function EventPage({ params }: { params: Promise<{ slug: st
     <article className="event-detail">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }} />
       <div className="detail-hero">
-        <Image src={event.imageUrl} alt="" fill priority sizes="100vw" />
+        <Image src={event.imageUrl} alt="" fill preload sizes="100vw" />
         <div className="detail-overlay" />
         <div className="shell detail-heading">
           <nav aria-label="Migas de pan"><Link href="/">Inicio</Link><span>/</span><Link href="/agenda">Agenda</Link></nav>
@@ -50,7 +50,7 @@ export default async function EventPage({ params }: { params: Promise<{ slug: st
         <aside className="event-facts" aria-label="Datos del evento">
           <div><CalendarPlus /><span><small>Fecha</small><strong>{formatEventDate(occurrence.startsAt)}</strong></span></div>
           <div><Clock3 /><span><small>Hora</small><strong>{formatEventTime(occurrence.startsAt)}</strong></span></div>
-          <div><MapPin /><span><small>Lugar</small><strong>{event.place.name}</strong><em>{event.place.address}</em></span></div>
+          <div><MapPin /><span><small>Lugar</small><strong>{event.place.slug ? <Link href={`/lugares/${event.place.slug}`}>{event.place.name}</Link> : event.place.name}</strong><em>{event.place.address}</em></span></div>
           <div><Ticket /><span><small>Entrada</small><strong>{accessLabel(event.accessType, event.price)}</strong></span></div>
           <a className="button button-primary" href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(event.place.address)}`} target="_blank" rel="noreferrer"><Navigation size={18} /> Cómo llegar</a>
           <a className="button button-secondary" href={`https://calendar.google.com/calendar/render?${calendarQuery}`} target="_blank" rel="noreferrer"><CalendarPlus size={18} /> Google Calendar</a>

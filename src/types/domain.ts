@@ -20,15 +20,25 @@ export interface Place {
   address: string;
   latitude?: number;
   longitude?: number;
-  openingHours?: string;
+  /** Líneas tal como se publican, p. ej. "Lunes a viernes de 9 a 13 h". */
+  openingHours?: string[];
   phone?: string;
   email?: string;
   website?: string;
+  socialLinks?: SocialLinks;
   accessibility?: string;
   services?: string[];
   imageUrl?: string;
+  gallery?: string[];
   featured: boolean;
   status: PublicationStatus;
+}
+
+export interface SocialLinks {
+  instagram?: string;
+  facebook?: string;
+  /** Boletería o venta de entradas. */
+  entradas?: string;
 }
 
 export interface EventOccurrence {
