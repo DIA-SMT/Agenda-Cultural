@@ -30,6 +30,22 @@ export function weekendRange(today: string) {
   return { from: addDays(today, 5 - weekday), to: addDays(today, 7 - weekday) };
 }
 
+const partsFormatter = new Intl.DateTimeFormat("en-CA", {
+  year: "numeric", month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit", hourCycle: "h23",
+  timeZone: TIME_ZONE,
+});
+
+/** Fecha y hora de Tucumán para los campos date/time de un formulario. */
+export function toTucumanParts(value: Date | string) {
+  const parts = Object.fromEntries(partsFormatter.formatToParts(new Date(value)).map((part) => [part.type, part.value]));
+  return { date: `${parts.year}-${parts.month}-${parts.day}`, time: `${parts.hour}:${parts.minute}` };
+}
+
+/** Instante ISO a partir de una fecha y hora de Tucumán ingresadas en un formulario. */
+export function fromTucumanParts(date: string, time: string) {
+  return `${date}T${time}:00${UTC_OFFSET}`;
+}
+
 export function startOfDay(date: string) {
   return new Date(`${date}T00:00:00${UTC_OFFSET}`);
 }
