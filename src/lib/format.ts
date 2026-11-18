@@ -29,8 +29,14 @@ export function formatCalendarDate(value: string) {
   return new Date(value).toISOString().replace(/[-:]/g, "").replace(/\.\d{3}/, "");
 }
 
-export function formatEventDate(value: string) {
-  return dateFormatter.format(new Date(value)).replace(".", "");
+const yearFormatter = new Intl.DateTimeFormat("en-CA", { year: "numeric", timeZone: "America/Argentina/Tucuman" });
+
+/** "vie, 28 nov"; con el año al final si no es el actual (los eventos importados llegan a años anteriores). */
+export function formatEventDate(value: string, now = new Date()) {
+  const date = new Date(value);
+  const label = dateFormatter.format(date).replace(".", "");
+  const year = yearFormatter.format(date);
+  return year === yearFormatter.format(now) ? label : `${label} ${year}`;
 }
 
 export function formatEventTime(value: string) {

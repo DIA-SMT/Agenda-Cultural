@@ -32,6 +32,10 @@ const nextConfig: NextConfig = {
       { source: "/faqs", destination: "/preguntas-frecuentes", permanent: true },
       { source: "/mapas-y-guias", destination: "/guias", permanent: true },
       ...legacyPlaceRedirects,
+      // Los eventos del sitio anterior colgaban de /www.agendaculturalsmt.com/events/<slug>/ (un error de
+      // configuración de WordPress) o de /events/<slug>/. El importador conserva el slug.
+      { source: "/www.agendaculturalsmt.com/events/:slug", destination: "/eventos/:slug", permanent: true },
+      { source: "/events/:slug", destination: "/eventos/:slug", permanent: true },
     ];
   },
 };

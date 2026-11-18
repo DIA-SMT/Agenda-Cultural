@@ -6,24 +6,17 @@ import { EventGrid } from "@/components/events/event-grid";
 import { Hero } from "@/components/hero";
 import { isDatabaseConfigured } from "@/lib/db";
 import { formatLongDate } from "@/lib/format";
-import { getEvents } from "@/services/events";
+import { getEvents, getPopularCategories } from "@/services/events";
 
 // La portada se prerenderiza; se regenera cada 5 minutos para reflejar la agenda y la fecha del día.
 export const revalidate = 300;
 
-const categories = [
-  { href: "/agenda?category=musica", label: "Música", number: "01" },
-  { href: "/agenda?category=teatro", label: "Teatro", number: "02" },
-  { href: "/agenda?category=talleres", label: "Talleres", number: "03" },
-  { href: "/agenda?category=familia", label: "En familia", number: "04" },
-];
-
 export default async function HomePage() {
-  const events = await getEvents({ pageSize: 3 });
+  const [events, categories] = await Promise.all([getEvents({ pageSize: 3 }), getPopularCategories(4)]);
 
   return (
     <>
-      <Hero todayLabel={formatLongDate(new Date())} hasOfficialData={isDatabaseConfigured} />
+      <Hero todayLabel={formatLongDate(new Date())} hasOfficialData={isDatabaseConfigured} categories={categories.slice(0, 3)} />
       <div className="shell"><DemoNotice /></div>
       <section className="section shell" aria-labelledby="next-events">
         <div className="section-heading">
@@ -32,20 +25,21 @@ export default async function HomePage() {
         </div>
         <EventGrid events={events.items} />
       </section>
-      <section className="category-section">
+      {categories.length > 0 && <section className="category-section">
         <div className="shell">
           <div className="section-heading light">
             <div><p className="section-kicker">Encontrá tu plan</p><h2>Explorá por categoría</h2></div>
           </div>
           <div className="category-list">
-            {categories.map((category) => (
-              <Link key={category.href} href={category.href}>
-                <span>{category.number}</span><strong>{category.label}</strong><ArrowRight aria-hidden="true" />
+            {/* Las categorías con más actividades por venir, para que ningún acceso lleve a una agenda vacía. */}
+            {categories.map((category, index) => (
+              <Link key={category.slug} href={`/agenda?category=${encodeURIComponent(category.slug)}`}>
+                <span>{String(index + 1).padStart(2, "0")}</span><strong>{category.name}</strong><ArrowRight aria-hidden="true" />
               </Link>
             ))}
           </div>
         </div>
-      </section>
+      </section>}
       <section className="section shell" aria-labelledby="places-title">
         <div className="section-heading">
           <div><p className="section-kicker">Recorré la ciudad</p><h2 id="places-title">Lugares que no te podés perder</h2></div>

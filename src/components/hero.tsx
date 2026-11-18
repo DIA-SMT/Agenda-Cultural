@@ -3,17 +3,27 @@
 import { ArrowRight, CalendarDays, MapPin, Search } from "lucide-react";
 import Link from "next/link";
 import { useRef } from "react";
+import type { Category } from "@/types/domain";
 
-const quickLinks = [
+const fixedLinks = [
   { label: "Hoy", query: "range=today" },
   { label: "Este fin de semana", query: "range=weekend" },
   { label: "Gratis", query: "free=1" },
-  { label: "Música", query: "category=musica" },
-  { label: "Teatro", query: "category=teatro" },
-  { label: "Talleres", query: "category=talleres" },
 ];
 
-export function Hero({ todayLabel, hasOfficialData }: { todayLabel: string; hasOfficialData: boolean }) {
+type HeroProps = {
+  todayLabel: string;
+  hasOfficialData: boolean;
+  /** Categorías con actividades por venir (la portada pasa las más concurridas). */
+  categories: Pick<Category, "slug" | "name">[];
+};
+
+export function Hero({ todayLabel, hasOfficialData, categories }: HeroProps) {
+  const quickLinks = [
+    ...fixedLinks,
+    ...categories.map((category) => ({ label: category.name, query: `category=${encodeURIComponent(category.slug)}` })),
+  ];
+
   const sectionRef = useRef<HTMLElement>(null);
 
   function handlePointerMove(event: React.PointerEvent<HTMLElement>) {
