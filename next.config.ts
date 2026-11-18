@@ -10,6 +10,10 @@ const legacyPlaceRedirects = contenido.espacios.map(({ slug }) => ({
 
 const nextConfig: NextConfig = {
   allowedDevOrigins: ["127.0.0.1"],
+  experimental: {
+    // Fotos del panel: hasta 10 MB cada una, varias por guardado en la galería. nginx tiene que aceptar lo mismo.
+    serverActions: { bodySizeLimit: "32mb" },
+  },
   images: {
     remotePatterns: [
       {

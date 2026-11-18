@@ -18,7 +18,7 @@ La Agenda Cultural SMT se implementa como una aplicación Next.js con App Router
 
 El destino es la VPS de la Dirección: Next.js con `next start` bajo pm2, nginx como proxy inverso y PostgreSQL 16 local. No se utiliza Docker. Sólo la aplicación se conecta a la base y `DATABASE_URL` nunca se expone con el prefijo `NEXT_PUBLIC_`.
 
-Las fotos del contenido viven en `MEDIA_DIR` (en la VPS, `/srv/agenda/media`) y se publican en `/media/…`: nginx las sirve directo y la ruta `src/app/media/[...ruta]` las sirve al optimizador de imágenes y en desarrollo. La autenticación del panel está pendiente de definir.
+Las fotos del contenido viven en `MEDIA_DIR` (en la VPS, `/srv/agenda/media`) y se publican en `/media/…`: nginx las sirve directo y la ruta `src/app/media/[...ruta]` las sirve al optimizador de imágenes y en desarrollo. El panel (`src/app/admin`) usa cuentas propias en `public.profiles` (contraseña con scrypt y sesión en una cookie firmada con `SESION_SECRETO`), sin servicios externos, igual que FerIA y la Subasta. Dos barreras: `src/proxy.ts` revisa la firma sin ir a la base, y `requireStaff()` vuelve a verificar la cuenta en cada página y Server Action. Las cuentas se crean por consola con `scripts/equipo.mjs`.
 
 ## Migración
 

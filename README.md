@@ -19,6 +19,7 @@ Abrir `http://localhost:3000`. Sin `DATABASE_URL`, la aplicación funciona con f
 - `NEXT_PUBLIC_SITE_URL`: origen público del sitio. Se fija al compilar, así que tiene que estar definida antes de `npm run build`.
 - `DATABASE_URL`: conexión a PostgreSQL, por ejemplo `postgresql://agenda:CLAVE@127.0.0.1:5432/agenda`. Sólo la lee el servidor; nunca debe llevar el prefijo `NEXT_PUBLIC_`.
 - `MEDIA_DIR`: carpeta de fotos y archivos del contenido, publicada en `/media`. Sin valor usa `./media`. En la VPS va fuera de las versiones (`/srv/agenda/media`) para sobrevivir a cada despliegue.
+- `SESION_SECRETO`: firma de las sesiones del panel, 32 caracteres o más (`openssl rand -base64 48`). Obligatoria en producción; cambiarla cierra todas las sesiones.
 
 Copiar estos nombres desde `.env.example`. No guardar valores reales en el repositorio.
 
@@ -60,6 +61,23 @@ La aplicación es la única que se conecta a la base: el sitio público sólo co
 
 No ejecutar las migraciones contra producción sin revisar primero la base destino y el impacto.
 
+## Panel de gestión
+
+`/admin` permite cargar y publicar eventos (con sus fechas, lugar, categorías e imagen), editar lugares (textos, horarios, contacto, foto principal y galería) y administrar categorías. Las imágenes se guardan en `MEDIA_DIR` con un nombre nuevo; se aceptan JPG, PNG, WebP y AVIF de hasta 10 MB.
+
+El equipo entra con correo y contraseña. Las cuentas se manejan por consola (las contraseñas se piden por teclado y no se muestran):
+
+```bash
+npm run equipo -- crear correo@smt.gob.ar "Nombre Apellido" admin   # o editor
+npm run equipo -- clave correo@smt.gob.ar                            # contraseña nueva; cierra sus sesiones
+npm run equipo -- listar
+npm run equipo -- desactivar correo@smt.gob.ar
+```
+
+Editores y administradores cargan y publican; sólo administración borra eventos y categorías. Los lugares no se borran: se pasan a Borrador o Archivado.
+
+La sesión es una cookie firmada de tres días que se renueva sola mientras se usa. `src/proxy.ts` sólo revisa la firma; cada página y acción del panel vuelve a verificar contra la base que la cuenta siga activa y que sus sesiones no se hayan cortado. Después de 5 intentos fallidos para un correo (o 20 desde una IP) el ingreso se bloquea 15 minutos.
+
 ## Importación desde WordPress/EventON
 
 El importador inicial sólo acepta JSON y opera obligatoriamente en modo seguro:
@@ -75,5 +93,7 @@ Para la migración real se necesitarán: exportación REST o SQL sanitizada, XML
 Se sigue la guía de migración a la VPS de la Dirección: usuario de sistema propio, base PostgreSQL local, `.env` compartido entre versiones, `npm ci`, `npm run db:migrate`, `npm run build` y `next start` bajo pm2 detrás de nginx.
 
 La portada, los listados de lugares y el sitemap se prerenderizan durante `npm run build` y consultan la base, así que `DATABASE_URL` tiene que apuntar a una base accesible y migrada al compilar. Después se regeneran solos (la portada cada 5 minutos, los lugares cada 10, el sitemap cada hora).
+
+nginx tiene que aceptar subidas de hasta 32 MB (`client_max_body_size 32M`), el mismo límite que `serverActions.bodySizeLimit` en `next.config.ts`.
 
 nginx sirve `/media/` directo desde `MEDIA_DIR`. La ruta `/media/[...ruta]` de la aplicación también hace falta: el optimizador de `next/image` le pide los originales al propio Next, no a nginx.
