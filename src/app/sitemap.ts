@@ -1,14 +1,18 @@
 import type { MetadataRoute } from "next";
-import { demoEvents, demoPlaces } from "@/data/demo";
+import { demoPlaces } from "@/data/demo";
 import { env } from "@/lib/env";
+import { getEventSlugs } from "@/services/events";
+
+export const revalidate = 3600;
 
 const routes = ["", "/agenda", "/lugares", "/bus-turistico", "/gastronomia", "/espacios-culturales", "/espacios-al-aire-libre", "/patrimonio-historico", "/planifica-tu-viaje", "/nuestra-ciudad", "/guias", "/oficinas", "/preguntas-frecuentes"];
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const now = new Date();
+  const eventSlugs = await getEventSlugs();
   return [
     ...routes.map((route) => ({ url: `${env.NEXT_PUBLIC_SITE_URL}${route}`, lastModified: now, changeFrequency: route === "/agenda" ? "daily" as const : "weekly" as const, priority: route === "" ? 1 : .7 })),
-    ...demoEvents.map((event) => ({ url: `${env.NEXT_PUBLIC_SITE_URL}/eventos/${event.slug}`, lastModified: now, changeFrequency: "weekly" as const, priority: .8 })),
+    ...eventSlugs.map((slug) => ({ url: `${env.NEXT_PUBLIC_SITE_URL}/eventos/${slug}`, lastModified: now, changeFrequency: "weekly" as const, priority: .8 })),
     ...demoPlaces.map((place) => ({ url: `${env.NEXT_PUBLIC_SITE_URL}/lugares/${place.slug}`, lastModified: now, changeFrequency: "monthly" as const, priority: .6 })),
   ];
 }

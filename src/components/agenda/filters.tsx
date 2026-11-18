@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { Filter, Search, X } from "lucide-react";
 import { useRef } from "react";
-import { demoCategories, demoPlaces } from "@/data/demo";
+import type { Category, Place } from "@/types/domain";
 
 interface FilterValues {
   q?: string;
@@ -15,14 +15,14 @@ interface FilterValues {
   range?: string;
 }
 
-export function AgendaFilters({ values }: { values: FilterValues }) {
+export function AgendaFilters({ values, categories, places }: { values: FilterValues; categories: Category[]; places: Place[] }) {
   const dialogRef = useRef<HTMLDialogElement>(null);
 
   const fields = (mobile = false) => (
     <form action="/agenda" method="get">
       <label className="field wide"><span>Buscar</span><div className="input-icon"><Search size={18} /><input type="search" name="q" defaultValue={values.q} placeholder="Evento, lugar o actividad" /></div></label>
-      <label className="field"><span>Categoría</span><select name="category" defaultValue={values.category || ""}><option value="">Todas</option>{demoCategories.map((category) => <option key={category.id} value={category.slug}>{category.name}</option>)}</select></label>
-      <label className="field"><span>Lugar</span><select name="place" defaultValue={values.place || ""}><option value="">Todos</option>{demoPlaces.map((place) => <option key={place.id} value={place.slug}>{place.name}</option>)}</select></label>
+      <label className="field"><span>Categoría</span><select name="category" defaultValue={values.category || ""}><option value="">Todas</option>{categories.map((category) => <option key={category.id} value={category.slug}>{category.name}</option>)}</select></label>
+      <label className="field"><span>Lugar</span><select name="place" defaultValue={values.place || ""}><option value="">Todos</option>{places.map((place) => <option key={place.id} value={place.slug}>{place.name}</option>)}</select></label>
       <label className="field"><span>Desde</span><input type="date" name="from" defaultValue={values.from} /></label>
       <label className="field"><span>Hasta</span><input type="date" name="to" defaultValue={values.to} /></label>
       <label className="check-field"><input type="checkbox" name="free" value="1" defaultChecked={values.free === "1"} /><span>Solo actividades gratuitas</span></label>

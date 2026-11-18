@@ -13,7 +13,7 @@ const quickLinks = [
   { label: "Talleres", query: "category=talleres" },
 ];
 
-export function Hero() {
+export function Hero({ todayLabel, hasOfficialData }: { todayLabel: string; hasOfficialData: boolean }) {
   const sectionRef = useRef<HTMLElement>(null);
 
   function handlePointerMove(event: React.PointerEvent<HTMLElement>) {
@@ -43,8 +43,8 @@ export function Hero() {
         </div>
         <aside className="today-card" aria-label="Hoy en San Miguel de Tucumán">
           <span className="today-label"><CalendarDays size={18} /> Hoy en SMT</span>
-          <strong>Lunes 14 de septiembre</strong>
-          <p>Los próximos eventos oficiales aparecerán aquí al conectar Supabase.</p>
+          <strong>{todayLabel}</strong>
+          <p>{hasOfficialData ? "Mirá las actividades programadas para hoy en la ciudad." : "Los próximos eventos oficiales aparecerán aquí al conectar la base de datos."}</p>
           <Link href="/agenda?range=today">Ver qué hay hoy <ArrowRight size={17} /></Link>
         </aside>
         <form className="hero-search" action="/agenda" role="search">

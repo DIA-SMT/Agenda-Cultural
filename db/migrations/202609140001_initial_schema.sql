@@ -1,6 +1,6 @@
-begin;
-
-create extension if not exists pgcrypto;
+-- Esquema para PostgreSQL 16 sin servicios de Supabase. Sólo la aplicación se conecta a la base,
+-- así que los permisos de edición se controlan en el servidor y no con RLS.
+-- scripts/migrate.mjs ejecuta cada archivo dentro de una transacción.
 
 create type public.user_role as enum ('admin', 'editor');
 create type public.profile_status as enum ('active', 'inactive');
@@ -12,7 +12,8 @@ create type public.place_type as enum ('museum', 'theater', 'cultural_house', 's
 create type public.tour_status as enum ('draft', 'available', 'unavailable', 'archived');
 
 create table public.profiles (
-  id uuid primary key references auth.users(id) on delete cascade,
+  id uuid primary key default gen_random_uuid(),
+  email text not null unique check (email = lower(email) and email ~* '^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$'),
   full_name text not null check (char_length(full_name) between 2 and 120),
   role public.user_role not null default 'editor',
   status public.profile_status not null default 'inactive',
@@ -264,18 +265,6 @@ begin
 end;
 $$;
 
-create or replace function public.handle_new_user()
-returns trigger language plpgsql security definer set search_path = public as $$
-begin
-  insert into public.profiles (id, full_name, role, status)
-  values (new.id, coalesce(new.raw_user_meta_data ->> 'full_name', split_part(coalesce(new.email, ''), '@', 1)), 'editor', 'inactive')
-  on conflict (id) do nothing;
-  return new;
-end;
-$$;
-
-create trigger on_auth_user_created after insert on auth.users for each row execute function public.handle_new_user();
-
 create trigger profiles_updated_at before update on public.profiles for each row execute function public.set_updated_at();
 create trigger categories_updated_at before update on public.categories for each row execute function public.set_updated_at();
 create trigger places_updated_at before update on public.places for each row execute function public.set_updated_at();
@@ -289,5 +278,3 @@ create trigger guides_updated_at before update on public.guides for each row exe
 create trigger settings_updated_at before update on public.site_settings for each row execute function public.set_updated_at();
 
 insert into public.site_settings (id) values (true) on conflict (id) do nothing;
-
-commit;

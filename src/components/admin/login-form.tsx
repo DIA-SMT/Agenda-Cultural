@@ -4,10 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { LockKeyhole, Mail } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { useRouter } from "next/navigation";
 import { z } from "zod";
-import { isSupabaseConfigured } from "@/lib/env";
-import { createClient } from "@/lib/supabase/client";
 
 const loginSchema = z.object({
   email: z.string().email("Ingresá un correo válido."),
@@ -16,20 +13,12 @@ const loginSchema = z.object({
 type LoginValues = z.infer<typeof loginSchema>;
 
 export function LoginForm() {
-  const router = useRouter();
   const [serverError, setServerError] = useState<string>();
   const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<LoginValues>({ resolver: zodResolver(loginSchema) });
 
-  async function onSubmit(values: LoginValues) {
-    setServerError(undefined);
-    if (!isSupabaseConfigured) {
-      setServerError("El acceso estará disponible cuando se configuren las variables de Supabase.");
-      return;
-    }
-    const supabase = createClient();
-    const { error } = await supabase.auth.signInWithPassword(values);
-    if (error) setServerError("No pudimos iniciar sesión. Revisá tus datos.");
-    else router.push("/admin");
+  // Pendiente: el proveedor de autenticación de la VPS todavía no está definido.
+  async function onSubmit() {
+    setServerError("El acceso administrativo todavía no está habilitado.");
   }
 
   return (

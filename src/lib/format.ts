@@ -12,6 +12,23 @@ const timeFormatter = new Intl.DateTimeFormat("es-AR", {
   timeZone: "America/Argentina/Tucuman",
 });
 
+const longDateFormatter = new Intl.DateTimeFormat("es-AR", {
+  weekday: "long",
+  day: "numeric",
+  month: "long",
+  timeZone: "America/Argentina/Tucuman",
+});
+
+export function formatLongDate(value: Date) {
+  const label = longDateFormatter.format(value).replace(",", "");
+  return label.charAt(0).toUpperCase() + label.slice(1);
+}
+
+// Formato UTC compacto que esperan Google Calendar y los archivos .ics (20260918T230000Z).
+export function formatCalendarDate(value: string) {
+  return new Date(value).toISOString().replace(/[-:]/g, "").replace(/\.\d{3}/, "");
+}
+
 export function formatEventDate(value: string) {
   return dateFormatter.format(new Date(value)).replace(".", "");
 }

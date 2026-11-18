@@ -4,7 +4,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { CalendarPlus, Clock3, ExternalLink, MapPin, Navigation, Ticket } from "lucide-react";
 import { ShareActions } from "@/components/events/share-actions";
-import { accessLabel, formatEventDate, formatEventTime } from "@/lib/format";
+import { accessLabel, formatCalendarDate, formatEventDate, formatEventTime } from "@/lib/format";
 import { getEventBySlug } from "@/services/events";
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
@@ -24,7 +24,7 @@ export default async function EventPage({ params }: { params: Promise<{ slug: st
   const event = await getEventBySlug(slug);
   if (!event) notFound();
   const occurrence = event.occurrences[0];
-  const calendarQuery = new URLSearchParams({ action: "TEMPLATE", text: event.title, dates: `${occurrence.startsAt.replace(/[-:]/g, "").replace(".000", "")}/${(occurrence.endsAt || occurrence.startsAt).replace(/[-:]/g, "").replace(".000", "")}`, details: event.summary, location: `${event.place.name}, ${event.place.address}` });
+  const calendarQuery = new URLSearchParams({ action: "TEMPLATE", text: event.title, dates: `${formatCalendarDate(occurrence.startsAt)}/${formatCalendarDate(occurrence.endsAt || occurrence.startsAt)}`, details: event.summary, location: `${event.place.name}, ${event.place.address}` });
   const jsonLd = { "@context": "https://schema.org", "@type": "Event", name: event.title, description: event.summary, startDate: occurrence.startsAt, endDate: occurrence.endsAt, eventStatus: "https://schema.org/EventScheduled", eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode", location: { "@type": "Place", name: event.place.name, address: event.place.address }, offers: { "@type": "Offer", price: event.accessType === "free" ? 0 : undefined, priceCurrency: "ARS", availability: "https://schema.org/InStock" } };
 
   return (
