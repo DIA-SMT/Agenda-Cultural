@@ -1,5 +1,6 @@
 import type { NextConfig } from "next";
 import contenido from "./db/contenido/espacios-culturales.json";
+import { BUS_TURISTICO_URL } from "./src/lib/links";
 
 // En el sitio anterior cada espacio colgaba de la raíz (/casa-historica/); acá vive en /lugares/<slug>.
 const legacyPlaceRedirects = contenido.espacios.map(({ slug }) => ({
@@ -28,7 +29,10 @@ const nextConfig: NextConfig = {
     return [
       { source: "/que-hacer", destination: "/agenda", permanent: true },
       { source: "/que-hacer/", destination: "/agenda", permanent: true },
-      { source: "/bus-turistico-smt", destination: "/bus-turistico", permanent: true },
+      // El Bus Turístico tiene su propio sitio municipal: la Agenda no le hace página y manda directo ahí.
+      // Temporal (307) para poder volver atrás sin que los navegadores se queden con la redirección guardada.
+      { source: "/bus-turistico", destination: BUS_TURISTICO_URL, permanent: false },
+      { source: "/bus-turistico-smt", destination: BUS_TURISTICO_URL, permanent: false },
       { source: "/faqs", destination: "/preguntas-frecuentes", permanent: true },
       { source: "/mapas-y-guias", destination: "/guias", permanent: true },
       ...legacyPlaceRedirects,
