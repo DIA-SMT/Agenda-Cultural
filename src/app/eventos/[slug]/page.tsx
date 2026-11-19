@@ -43,7 +43,7 @@ export default async function EventPage({ params }: { params: Promise<{ slug: st
       <div className="shell detail-layout">
         <div className="detail-main">
           {event.isDemo && <div className="demo-notice">Contenido demostrativo: será reemplazado por información oficial.</div>}
-          <section><h2>Sobre la actividad</h2><p>{event.description}</p></section>
+          <section><h2>Sobre la actividad</h2>{event.description.split(/\n{2,}/).filter(Boolean).map((paragraph) => <p key={paragraph}>{paragraph}</p>)}</section>
           {event.occurrences.length > 1 && <section><h2>Próximas fechas</h2><ul className="occurrence-list">{event.occurrences.map((item) => <li key={item.id}><CalendarPlus /><span><strong>{formatEventDate(item.startsAt)}</strong>{formatEventTime(item.startsAt)}</span></li>)}</ul></section>}
           <section><h2>Compartí este evento</h2><ShareActions title={event.title} /></section>
         </div>

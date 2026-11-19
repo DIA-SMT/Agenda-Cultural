@@ -71,6 +71,22 @@ export async function getAgendaOptions(): Promise<{ categories: Category[]; plac
   return { categories: [...categories.values()].sort(byName), places: [...places.values()].sort(byName) };
 }
 
+/** Las categorías con más actividades por venir: los accesos de la portada se arman con esto. */
+export async function getPopularCategories(limit = 4): Promise<(Category & { count: number })[]> {
+  const counts = new Map<string, { category: Category; count: number }>();
+  for (const event of await getUpcomingEvents()) {
+    for (const category of event.categories) {
+      const entry = counts.get(category.slug) ?? { category, count: 0 };
+      entry.count++;
+      counts.set(category.slug, entry);
+    }
+  }
+  return [...counts.values()]
+    .sort((a, b) => b.count - a.count || a.category.name.localeCompare(b.category.name, "es-AR"))
+    .slice(0, limit)
+    .map(({ category, count }) => ({ ...category, count }));
+}
+
 export async function getEventSlugs() {
   return (await getUpcomingEvents()).map((event) => event.slug);
 }

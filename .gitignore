@@ -34,3 +34,6 @@ next-env.d.ts
 
 # fotos y archivos del contenido (MEDIA_DIR)
 /media
+
+# informes del importador de eventos
+importacion-*.json

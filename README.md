@@ -80,13 +80,19 @@ La sesión es una cookie firmada de tres días que se renueva sola mientras se u
 
 ## Importación desde WordPress/EventON
 
-El importador inicial sólo acepta JSON y opera obligatoriamente en modo seguro:
+`npm run db:eventos` trae los eventos de agendaculturalsmt.com sin necesidad de acceso al WordPress: lee la API REST pública (título, slug, descripción, categorías) y el mismo pedido que hace el calendario de `/que-hacer/` (`?evo-ajax=eventon_init_load`), que devuelve cada función con su horario, los metadatos de EventON y el lugar en microdatos schema.org.
 
 ```bash
-node scripts/import-wordpress.mjs --input export.json --report migration-report.json --mode dry-run
+npm run db:eventos                                  # prueba en seco: no escribe; deja importacion-eventos.json
+npm run db:eventos -- --escribir                    # carga en la base y baja las fotos a MEDIA_DIR
+npm run db:eventos -- --escribir --actualizar       # reemplaza los ya importados (pisa lo editado en el panel)
 ```
 
-Para la migración real se necesitarán: exportación REST o SQL sanitizada, XML de WordPress, metadatos completos de EventON, manifiesto/carpeta de medios, taxonomías, lugares, recurrencias y mapa de URLs anteriores.
+- Cada evento se identifica por su id de WordPress (`legacy_id`): correrlo de nuevo no duplica nada.
+- Se conservan los slugs, y las URLs viejas (`/www.agendaculturalsmt.com/events/<slug>/` y `/events/<slug>/`) redirigen a `/eventos/<slug>`.
+- Los horarios salen de `unix_start` de EventON, en hora de Tucumán; los eventos que quedaron con zona UTC por error se corrigen. Si el cierre estaba oculto, no se importa la hora de cierre de relleno.
+- Los lugares se vinculan a los ya cargados por nombre o por la tabla `PLACE_ALIASES` de `src/lib/importacion/eventon.mjs`; el resto queda como lugar escrito a mano.
+- Las categorías de las tres taxonomías de EventON se unen por slug. La entrada se marca gratis si la descripción lo dice; si no, "Consultar". El destacado del sitio anterior no se importa.
 
 ## Despliegue
 

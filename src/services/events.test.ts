@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { demoEvents } from "@/data/demo";
-import { filterEvents, getAgendaOptions, getEvents } from "./events";
+import { filterEvents, getAgendaOptions, getEvents, getPopularCategories } from "./events";
 
 describe("filterEvents", () => {
   it("searches ignoring accents and case", () => {
@@ -44,5 +44,10 @@ describe("demo mode", () => {
     const options = await getAgendaOptions();
     expect(options.categories.map((category) => category.slug)).toEqual(["musica", "familia", "talleres", "teatro"]);
     expect(options.places.map((place) => place.slug)).toEqual(["espacio-cultural-demo", "punto-encuentro-demo"]);
+  });
+
+  it("ranks categories by upcoming events, then by name", async () => {
+    const popular = await getPopularCategories(3);
+    expect(popular.map((category) => [category.slug, category.count])).toEqual([["musica", 1], ["familia", 1], ["talleres", 1]]);
   });
 });
