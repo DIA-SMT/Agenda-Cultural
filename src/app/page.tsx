@@ -103,6 +103,9 @@ export default async function HomePage() {
       </section>
       <section className="app-banner">
         <div className="shell app-banner-inner">
+          <div className="app-phones">
+            <Image src="/images/contenido/app/ciudad-smt-celulares.webp" alt="La app Ciudad SMT abierta en dos iPhone" width={584} height={763} sizes="(max-width: 640px) 220px, (max-width: 900px) 240px, 300px" />
+          </div>
           <div><p className="section-kicker">Ciudad SMT</p><h2>La ciudad, también en tu celular</h2><p>Accedé a servicios municipales y novedades desde la aplicación oficial.</p></div>
           <div className="app-actions">
             <a className="button button-light" href={APP_CIUDAD_SMT.googlePlay} rel="noreferrer">Google Play</a>

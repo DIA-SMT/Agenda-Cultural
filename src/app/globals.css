@@ -157,8 +157,16 @@ button, a { -webkit-tap-highlight-color: transparent; }
 .place-stack strong { font-family: var(--font-display); font-size: 1.45rem; }
 .place-stack span { color: var(--gray-600); }
 .app-banner { background: var(--blue-600); color: white; }
-.app-banner-inner { min-height: 300px; display: flex; align-items: center; justify-content: space-between; gap: 2rem; }
-.app-banner h2 { font-family: var(--font-display); font-size: clamp(2rem, 4vw, 3.3rem); margin: .35rem 0; letter-spacing: -.04em; }
+.app-banner-inner { min-height: 300px; display: grid; grid-template-columns: 300px minmax(0, 1fr) auto; align-items: center; gap: 2.5rem; }
+/* Los celulares asoman por arriba de la franja, como en el sitio anterior. */
+.app-phones { align-self: end; margin-top: -4.5rem; padding-bottom: 1.5rem; }
+.app-phones img { display: block; width: 100%; height: auto; filter: drop-shadow(0 22px 34px rgb(4 23 45 / .35)); }
+@media (max-width: 900px) {
+  .app-banner-inner { grid-template-columns: 240px minmax(0, 1fr); gap: 0 2rem; }
+  .app-phones { grid-row: span 2; }
+  .app-actions { grid-column: 2; padding-bottom: 2rem; }
+}
+.app-banner h2 { font-family: var(--font-display); font-size: clamp(2rem, 4vw, 3.3rem); line-height: 1.05; margin: .35rem 0 .6rem; letter-spacing: -.04em; }
 .app-banner .section-kicker { color: var(--yellow-500); }
 .app-actions { display: flex; gap: .75rem; flex-wrap: wrap; }
 
@@ -217,7 +225,9 @@ button, a { -webkit-tap-highlight-color: transparent; }
   .place-large { min-height: 370px; }
   .place-stack { grid-template-columns: 1fr 1fr; }
   .place-stack a { min-height: 210px; padding: 1rem; }
-  .app-banner-inner { min-height: 360px; padding-block: 3rem; flex-direction: column; justify-content: center; align-items: flex-start; }
+  .app-banner-inner { min-height: 0; grid-template-columns: 1fr; gap: 1.2rem; padding-bottom: 3rem; }
+  .app-phones { grid-row: auto; width: 220px; justify-self: center; margin-top: -3.5rem; padding-bottom: 0; }
+  .app-actions { grid-column: auto; padding-bottom: 0; }
   .footer-grid { grid-template-columns: 1fr 1fr; }
   .footer-grid > div:first-child { grid-column: 1 / -1; }
   .footer-bottom { flex-direction: column; }
