@@ -61,8 +61,14 @@ export default async function HomePage() {
             <span><Building2 /> Espacios culturales <small>Arte, historia y encuentros</small></span>
           </Link>
           <div className="place-stack">
-            <Link href="/espacios-al-aire-libre"><Trees /><strong>Plazas y parques</strong><span>Disfrutá la ciudad al aire libre</span></Link>
-            <a href={BUS_TURISTICO_URL}><Bus /><strong>Bus Turístico</strong><span>Conocé los circuitos de la ciudad</span></a>
+            <Link href="/espacios-al-aire-libre">
+              <Image src="/images/contenido/aire-libre/parques.webp" alt="" fill sizes="(max-width: 640px) 50vw, (max-width: 768px) 100vw, 35vw" />
+              <Trees /><strong>Plazas y parques</strong><span>Disfrutá la ciudad al aire libre</span>
+            </Link>
+            <a href={BUS_TURISTICO_URL}>
+              <Image src="/images/contenido/planifica/excursiones.webp" alt="" fill sizes="(max-width: 640px) 50vw, (max-width: 768px) 100vw, 35vw" />
+              <Bus /><strong>Bus Turístico</strong><span>Conocé los circuitos de la ciudad</span>
+            </a>
           </div>
         </div>
       </section>

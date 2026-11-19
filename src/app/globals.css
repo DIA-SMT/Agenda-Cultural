@@ -152,10 +152,15 @@ button, a { -webkit-tap-highlight-color: transparent; }
 .place-large > span { position: absolute; z-index: 1; left: 1.5rem; bottom: 1.5rem; display: grid; grid-template-columns: auto 1fr; gap: .2rem .75rem; align-items: center; font-family: var(--font-display); font-size: 1.8rem; font-weight: 850; }
 .place-large small { grid-column: 2; font-family: var(--font-body); font-size: 1rem; font-weight: 500; }
 .place-stack { display: grid; gap: 1.25rem; }
-.place-stack a { min-height: 228px; display: flex; flex-direction: column; justify-content: end; padding: 1.5rem; border-radius: var(--radius-lg); background: var(--gray-50); border: 1px solid var(--gray-100); }
-.place-stack svg { color: var(--blue-600); margin-bottom: auto; }
+/* Mismo tratamiento que la tarjeta grande: foto de fondo, degradé y texto blanco. */
+.place-stack a { position: relative; overflow: hidden; min-height: 228px; display: flex; flex-direction: column; justify-content: end; padding: 1.5rem; border-radius: var(--radius-lg); background: var(--blue-900); color: white; }
+.place-stack a::after { content: ""; position: absolute; inset: 0; background: linear-gradient(rgb(7 31 61 / .05) 20%, rgb(7 31 61 / .9)); }
+.place-stack img { object-fit: cover; transition: transform .35s ease; }
+.place-stack a:hover img { transform: scale(1.04); }
+.place-stack svg, .place-stack strong, .place-stack span { position: relative; z-index: 1; }
+.place-stack svg { width: 42px; height: 42px; padding: 10px; border-radius: 50%; background: white; color: var(--blue-700); margin-bottom: auto; }
 .place-stack strong { font-family: var(--font-display); font-size: 1.45rem; }
-.place-stack span { color: var(--gray-600); }
+.place-stack span { color: rgb(255 255 255 / .85); }
 .app-banner { background: var(--blue-600); color: white; }
 .app-banner-inner { min-height: 300px; display: grid; grid-template-columns: 300px minmax(0, 1fr) auto; align-items: center; gap: 2.5rem; }
 /* Los celulares asoman por arriba de la franja, como en el sitio anterior. */
