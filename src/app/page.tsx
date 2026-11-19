@@ -6,6 +6,7 @@ import { EventGrid } from "@/components/events/event-grid";
 import { Hero } from "@/components/hero";
 import { categoryEmoji } from "@/lib/category-emoji";
 import { isDatabaseConfigured } from "@/lib/db";
+import { BUS_TURISTICO_URL } from "@/lib/links";
 import { formatLongDate } from "@/lib/format";
 import { getEvents, getPopularCategories } from "@/services/events";
 
@@ -60,7 +61,7 @@ export default async function HomePage() {
           </Link>
           <div className="place-stack">
             <Link href="/espacios-al-aire-libre"><Trees /><strong>Plazas y parques</strong><span>Disfrutá la ciudad al aire libre</span></Link>
-            <Link href="/bus-turistico"><Bus /><strong>Bus Turístico</strong><span>Conocé los circuitos de la ciudad</span></Link>
+            <a href={BUS_TURISTICO_URL}><Bus /><strong>Bus Turístico</strong><span>Conocé los circuitos de la ciudad</span></a>
           </div>
         </div>
       </section>
