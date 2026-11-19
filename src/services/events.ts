@@ -87,6 +87,11 @@ export async function getPopularCategories(limit = 4): Promise<(Category & { cou
     .map(({ category, count }) => ({ ...category, count }));
 }
 
+/** Todos los eventos publicados que todavía tienen fechas por venir, sin paginar (para Migue). */
+export async function getAllUpcomingEvents(): Promise<CulturalEvent[]> {
+  return getUpcomingEvents();
+}
+
 export async function getEventSlugs() {
   return (await getUpcomingEvents()).map((event) => event.slug);
 }
