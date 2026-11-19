@@ -3,7 +3,8 @@
 //
 //   npm run db:eventos                       prueba en seco: baja todo, arma el plan y escribe el informe
 //   npm run db:eventos -- --escribir         además carga en la base y baja las imágenes a MEDIA_DIR
-//   npm run db:eventos -- --escribir --actualizar   reemplaza los eventos ya importados (pisa lo editado)
+//   npm run db:eventos -- --escribir --actualizar   reemplaza los eventos ya importados (pisa lo editado,
+//                                                   salvo el destacado y el estado, que se deciden en el panel)
 //   --reporte archivo.json                   dónde dejar el informe (por defecto importacion-eventos.json)
 //
 // Cada evento se identifica por su id de WordPress (legacy_id): correrlo de nuevo no duplica nada.

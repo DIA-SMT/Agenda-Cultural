@@ -4,7 +4,8 @@
 
 /**
  * Carga categorías y eventos. Cada evento se identifica por su id de WordPress (legacy_id): si ya está, se
- * saltea, salvo con `update`, que reemplaza sus datos, categorías y fechas. Así se puede correr más de una vez.
+ * saltea, salvo con `update`, que reemplaza sus datos, categorías y fechas; el destacado y el estado (publicado,
+ * suspendido, archivado…) quedan como se hayan dejado en el panel. Así se puede correr más de una vez.
  * `saveImage(url)` baja la foto y devuelve su ruta pública; si falla, el evento se carga igual, sin foto.
  */
 export async function writePlan(db, plan, { update = false, saveImage = async () => null } = {}) {
@@ -43,10 +44,12 @@ export async function writePlan(db, plan, { update = false, saveImage = async ()
     }
 
     const placeId = event.placeSlug ? placeIds.get(event.placeSlug) ?? null : null;
-    const values = [
+    // Lo que viene del sitio viejo. Destacado y visibilidad no: se deciden en el panel y una actualización
+    // (la sincronización nocturna) no los toca.
+    const content = [
       event.title, slug, event.summary, event.description, image, placeId,
       placeId ? null : event.customPlaceName ?? "Lugar a confirmar", placeId ? null : event.customAddress,
-      event.accessType, event.featured, event.legacyId, event.legacyUrl,
+      event.accessType, event.legacyId, event.legacyUrl,
     ];
     await db.transaction(async (query) => {
       let id = existing?.id;
@@ -54,17 +57,16 @@ export async function writePlan(db, plan, { update = false, saveImage = async ()
         await query(`
           update public.events set title = $1, slug = $2, summary = $3, description = $4, main_image_path = $5,
             place_id = $6, custom_place_name = $7, custom_address = $8, access_type = $9::public.access_type,
-            featured = $10, legacy_id = $11, legacy_url = $12, status = 'published',
-            published_at = coalesce(published_at, now())
-          where id = $13`, [...values, id]);
+            legacy_id = $10, legacy_url = $11
+          where id = $12`, [...content, id]);
         await query("delete from public.event_categories where event_id = $1", [id]);
         await query("delete from public.event_occurrences where event_id = $1", [id]);
       } else {
         [{ id }] = await query(`
           insert into public.events (title, slug, summary, description, main_image_path, place_id, custom_place_name,
-            custom_address, access_type, featured, legacy_id, legacy_url, status, published_at)
+            custom_address, access_type, legacy_id, legacy_url, featured, status, published_at)
           values ($1, $2, $3, $4, $5, $6, $7, $8, $9::public.access_type, $10, $11, $12, 'published', now())
-          returning id`, values);
+          returning id`, [...content, event.featured]);
       }
       const ids = event.categorySlugs.map((categorySlug) => categoryIds.get(categorySlug)).filter(Boolean);
       await query(`
