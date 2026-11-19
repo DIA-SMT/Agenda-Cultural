@@ -4,7 +4,7 @@ import { getPlaces, groupPlacesByType } from "@/services/places";
 
 export const metadata: Metadata = {
   title: "Lugares para descubrir",
-  description: "Museos, teatros, centros culturales y espacios de San Miguel de Tucumán.",
+  description: "Museos, teatros, centros culturales, parques y plazas de San Miguel de Tucumán.",
   alternates: { canonical: "/lugares" },
 };
 
@@ -18,7 +18,7 @@ export default async function PlacesPage() {
         <div className="shell">
           <p className="section-kicker">Dónde ir</p>
           <h1>Lugares para descubrir</h1>
-          <p>Museos, teatros, centros culturales y espacios de la ciudad.</p>
+          <p>Museos, teatros, centros culturales, parques y plazas de la ciudad.</p>
         </div>
       </div>
       <PlaceSections groups={groupPlacesByType(places)} />

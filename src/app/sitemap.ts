@@ -5,7 +5,11 @@ import { getPlaces } from "@/services/places";
 
 export const revalidate = 3600;
 
-const routes = ["", "/agenda", "/lugares", "/gastronomia", "/espacios-culturales", "/espacios-al-aire-libre", "/patrimonio-historico", "/planifica-tu-viaje", "/nuestra-ciudad", "/guias", "/oficinas", "/preguntas-frecuentes"];
+const routes = [
+  "", "/agenda", "/lugares", "/gastronomia", "/espacios-culturales", "/espacios-al-aire-libre", "/patrimonio-historico",
+  "/ferias-municipales", "/pintamos-la-ciudad-que-queremos", "/museo-escultorico-a-cielo-abierto",
+  "/planifica-tu-viaje", "/nuestra-ciudad", "/guias", "/oficinas", "/preguntas-frecuentes",
+];
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const now = new Date();
