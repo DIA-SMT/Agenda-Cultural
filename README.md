@@ -88,6 +88,10 @@ npm run db:eventos -- --escribir                    # carga en la base y baja la
 npm run db:eventos -- --escribir --actualizar       # reemplaza los ya importados (pisa lo editado en el panel)
 ```
 
+- `--actualizar` reemplaza datos, lugar, categorías y fechas, pero no toca el destacado ni el estado
+  (publicado, suspendido, archivado…): eso se decide en el panel. Así se puede correr todas las noches mientras el
+  equipo siga cargando en el sitio viejo.
+
 - Cada evento se identifica por su id de WordPress (`legacy_id`): correrlo de nuevo no duplica nada.
 - Se conservan los slugs, y las URLs viejas (`/www.agendaculturalsmt.com/events/<slug>/` y `/events/<slug>/`) redirigen a `/eventos/<slug>`.
 - Los horarios salen de `unix_start` de EventON, en hora de Tucumán; los eventos que quedaron con zona UTC por error se corrigen. Si el cierre estaba oculto, no se importa la hora de cierre de relleno.

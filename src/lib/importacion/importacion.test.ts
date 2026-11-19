@@ -135,13 +135,15 @@ describe("writing the plan", () => {
     const before = await count("event_occurrences");
     expect(await writePlan(db, plan)).toMatchObject({ created: 0, updated: 0, skipped: plan.events.length });
 
+    // Desde el panel lo destacaron y lo suspendieron: eso no lo trae el sitio viejo y se respeta.
+    await db.query("update public.events set featured = true, status = 'suspended' where legacy_id = '9370'");
     const changed: ImportPlan = { ...plan, events: plan.events.map((event) => event.legacyId === "9370" ? { ...event, title: "Título nuevo", occurrences: event.occurrences.slice(0, 1) } : event) };
     const result = await writePlan(db, changed, { update: true });
     expect(result).toMatchObject({ updated: plan.events.length, created: 0 });
-    const [row] = await db.query<{ title: string; dates: number }>(`
-      select title, (select count(*)::int from public.event_occurrences o where o.event_id = e.id) as dates
+    const [row] = await db.query<{ title: string; dates: number; featured: boolean; status: string }>(`
+      select title, featured, status::text, (select count(*)::int from public.event_occurrences o where o.event_id = e.id) as dates
       from public.events e where legacy_id = '9370'`);
-    expect(row).toEqual({ title: "Título nuevo", dates: 1 });
+    expect(row).toEqual({ title: "Título nuevo", dates: 1, featured: true, status: "suspended" });
     expect(await count("event_occurrences")).toBe(before - legacy(9370).occurrences.length + 1);
   });
 
