@@ -4,6 +4,7 @@ import { ArrowRight, Building2, Bus, Trees } from "lucide-react";
 import { DemoNotice } from "@/components/demo-notice";
 import { EventGrid } from "@/components/events/event-grid";
 import { Hero } from "@/components/hero";
+import { categoryEmoji } from "@/lib/category-emoji";
 import { isDatabaseConfigured } from "@/lib/db";
 import { formatLongDate } from "@/lib/format";
 import { getEvents, getPopularCategories } from "@/services/events";
@@ -30,14 +31,21 @@ export default async function HomePage() {
           <div className="section-heading light">
             <div><p className="section-kicker">Encontrá tu plan</p><h2>Explorá por categoría</h2></div>
           </div>
-          <div className="category-list">
-            {/* Las categorías con más actividades por venir, para que ningún acceso lleve a una agenda vacía. */}
-            {categories.map((category, index) => (
-              <Link key={category.slug} href={`/agenda?category=${encodeURIComponent(category.slug)}`}>
-                <span>{String(index + 1).padStart(2, "0")}</span><strong>{category.name}</strong><ArrowRight aria-hidden="true" />
-              </Link>
+          {/* Las categorías con más actividades por venir, para que ningún acceso lleve a una agenda vacía. */}
+          <ul className="category-grid">
+            {categories.map((category) => (
+              <li key={category.slug}>
+                <Link className="category-card" href={`/agenda?category=${encodeURIComponent(category.slug)}`}>
+                  <span className="category-sticker" aria-hidden="true">{categoryEmoji(category)}</span>
+                  <span className="category-text">
+                    <strong>{category.name}</strong>
+                    <small>{category.count} {category.count === 1 ? "actividad" : "actividades"} por venir</small>
+                  </span>
+                  <ArrowRight className="category-arrow" aria-hidden="true" />
+                </Link>
+              </li>
             ))}
-          </div>
+          </ul>
         </div>
       </section>}
       <section className="section shell" aria-labelledby="places-title">
