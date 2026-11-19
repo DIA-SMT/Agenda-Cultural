@@ -114,12 +114,24 @@ button, a { -webkit-tap-highlight-color: transparent; }
 
 .category-section { background: var(--blue-900); color: white; padding-block: 5.5rem; overflow: hidden; }
 .section-heading.light .section-kicker { color: var(--sky-300); }
-.category-list { border-top: 1px solid rgb(255 255 255 / .2); }
-.category-list a { display: grid; grid-template-columns: 54px 1fr auto; align-items: center; gap: 1rem; padding: 1.15rem 0; border-bottom: 1px solid rgb(255 255 255 / .2); }
-.category-list span { color: var(--sky-300); font-variant-numeric: tabular-nums; }
-.category-list strong { font-family: var(--font-display); font-size: clamp(1.6rem, 3vw, 2.5rem); }
-.category-list svg { transition: transform .2s; }
-.category-list a:hover svg { transform: translateX(6px); color: var(--yellow-500); }
+/* Cada categoría lleva un "sticker": emoji sobre un cuadrado de color con borde blanco, un poco torcido. */
+.category-grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+.category-grid li:nth-child(4n + 1) { --sticker: #ffe58a; --tilt: -7deg; }
+.category-grid li:nth-child(4n + 2) { --sticker: #bfe9fb; --tilt: 6deg; }
+.category-grid li:nth-child(4n + 3) { --sticker: #ffc9b8; --tilt: 5deg; }
+.category-grid li:nth-child(4n + 4) { --sticker: #c9f0d9; --tilt: -6deg; }
+.category-card { height: 100%; display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 1.4rem; padding: 1.35rem 1.6rem; border-radius: var(--radius-lg); background: rgb(255 255 255 / .05); border: 1px solid rgb(255 255 255 / .12); transition: background .2s, border-color .2s, transform .2s; }
+.category-card:hover { background: rgb(255 255 255 / .1); border-color: rgb(255 255 255 / .28); transform: translateY(-3px); }
+.category-sticker { width: 78px; height: 78px; display: grid; place-items: center; border-radius: 24px; background: var(--sticker); border: 4px solid white; box-shadow: 0 12px 24px rgb(0 0 0 / .35); font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif; font-size: 2.4rem; line-height: 1; transform: rotate(var(--tilt)); transition: transform .3s cubic-bezier(.34, 1.56, .64, 1); }
+.category-card:hover .category-sticker { transform: rotate(0deg) scale(1.1); }
+.category-text strong { display: block; font-family: var(--font-display); font-size: clamp(1.45rem, 2.4vw, 2rem); line-height: 1.1; letter-spacing: -.02em; }
+.category-text small { display: block; margin-top: .3rem; color: var(--sky-300); font-size: .95rem; }
+.category-arrow { transition: transform .2s, color .2s; }
+.category-card:hover .category-arrow { transform: translateX(6px); color: var(--yellow-500); }
+@media (prefers-reduced-motion: reduce) {
+  .category-card, .category-sticker, .category-arrow { transition: none; }
+  .category-card:hover { transform: none; }
+}
 .places-feature { display: grid; grid-template-columns: 1.7fr 1fr; gap: 1.25rem; }
 .place-large { position: relative; min-height: 480px; border-radius: var(--radius-lg); overflow: hidden; color: white; }
 .place-large::after { content: ""; position: absolute; inset: 0; background: linear-gradient(transparent 35%, rgb(7 31 61 / .88)); }
@@ -180,6 +192,9 @@ button, a { -webkit-tap-highlight-color: transparent; }
   .petal-one, .petal-two { display: none; }
   .demo-notice { align-items: flex-start; font-size: .9rem; }
   .section, .category-section { padding-block: 3.8rem; }
+  .category-grid { grid-template-columns: 1fr; gap: .75rem; }
+  .category-card { gap: 1rem; padding: 1rem 1.1rem; }
+  .category-sticker { width: 60px; height: 60px; border-radius: 18px; border-width: 3px; font-size: 1.85rem; }
   .section-heading { align-items: flex-start; flex-direction: column; gap: .8rem; }
   .event-grid { grid-template-columns: 1fr; }
   .places-feature { grid-template-columns: 1fr; }
