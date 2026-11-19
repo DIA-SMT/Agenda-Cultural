@@ -32,7 +32,9 @@
         "https://agendaculturalsmt.com/wp-content/uploads/2025/11/multimedia.grande.8acda8efc848d3f4.TXVzZW8gZGUgbGEgSW5kdXN0cmlhIEF6dWNhcmVyYSBfZ3JhbmRlLndlYnA.webp"
       ],
       "legacy_url": "https://agendaculturalsmt.com/museo-de-la-industria-azucarera-mia/",
-      "source_modified": "2026-01-13T13:22:32"
+      "source_modified": "2026-01-13T13:22:32",
+      "latitude": -26.826168,
+      "longitude": -65.190323
     },
     {
       "slug": "casa-museo-de-la-ciudad",
@@ -66,7 +68,9 @@
         "https://agendaculturalsmt.com/wp-content/uploads/2025/11/multimedia.normal.9587088a813ce679.Q29sZWdpbyBTYWdyYWRhIEZhbWlsaWFXaGF0c0FwcCBfbm9ybWFsLndlYnA.webp"
       ],
       "legacy_url": "https://agendaculturalsmt.com/casa-museo-de-la-ciudad/",
-      "source_modified": "2026-01-13T13:21:59"
+      "source_modified": "2026-01-13T13:21:59",
+      "latitude": null,
+      "longitude": null
     },
     {
       "slug": "palacio-de-los-deportes",
@@ -98,7 +102,9 @@
         "https://agendaculturalsmt.com/wp-content/uploads/2025/11/multimedia.normal.aa93a6578eb419a5.RGFuemEgRm9sY2xjzKdvcmljYSBQYWxhY2lvIGRlIGxvX25vcm1hbC53ZWJw.webp"
       ],
       "legacy_url": "https://agendaculturalsmt.com/palacio-de-los-deportes/",
-      "source_modified": "2025-12-16T10:07:39"
+      "source_modified": "2025-12-16T10:07:39",
+      "latitude": -26.831715,
+      "longitude": -65.181325
     },
     {
       "slug": "casa-historica",
@@ -141,7 +147,9 @@
         "https://agendaculturalsmt.com/wp-content/uploads/2025/11/30377362018_45210b36e2_b.jpg"
       ],
       "legacy_url": "https://agendaculturalsmt.com/casa-historica/",
-      "source_modified": "2025-12-03T20:28:02"
+      "source_modified": "2025-12-03T20:28:02",
+      "latitude": null,
+      "longitude": null
     },
     {
       "slug": "museo-mercedes-sosa",
@@ -174,7 +182,9 @@
         "https://agendaculturalsmt.com/wp-content/uploads/2025/11/multimedia.normal.b9f48afc7567b427.TXVzZW8gTWVyY2VkZXMgU29zYV9ub3JtYWwud2VicA-1.webp"
       ],
       "legacy_url": "https://agendaculturalsmt.com/museo-mercedes-sosa/",
-      "source_modified": "2026-01-13T13:21:19"
+      "source_modified": "2026-01-13T13:21:19",
+      "latitude": null,
+      "longitude": null
     },
     {
       "slug": "teatro-rosita-avila",
@@ -204,7 +214,9 @@
         "https://agendaculturalsmt.com/wp-content/uploads/2025/11/multimedia.grande.a3d7e5349f60747a.dGVhdHJvIHphcnp1ZWxhIG51ZXZhX2dyYW5kZS53ZWJw.webp"
       ],
       "legacy_url": "https://agendaculturalsmt.com/teatro-rosita-avila/",
-      "source_modified": "2025-12-16T10:08:57"
+      "source_modified": "2025-12-16T10:08:57",
+      "latitude": -26.832027,
+      "longitude": -65.22222
     },
     {
       "slug": "casa-de-la-cultura",
@@ -231,7 +243,9 @@
         "https://agendaculturalsmt.com/wp-content/uploads/2025/11/multimedia.grande.a1afae4ac5eb6947.Y2llcnJlIHRhbGxlcmVzIGN1bHR1cmFsZXMgcGludHVfZ3JhbmRlLndlYnA.webp"
       ],
       "legacy_url": "https://agendaculturalsmt.com/casa-de-la-cultura/",
-      "source_modified": "2026-03-31T17:09:20"
+      "source_modified": "2026-03-31T17:09:20",
+      "latitude": -26.822363,
+      "longitude": -65.190499
     },
     {
       "slug": "casa-belgraniana",
@@ -264,7 +278,9 @@
         "https://agendaculturalsmt.com/wp-content/uploads/2025/11/multimedia.grande.ae72e063c394838b.QmVsZ3Jhbm8gMV9ncmFuZGUud2VicA.webp"
       ],
       "legacy_url": "https://agendaculturalsmt.com/casa-belgraniana/",
-      "source_modified": "2026-01-13T13:20:44"
+      "source_modified": "2026-01-13T13:20:44",
+      "latitude": -26.838187,
+      "longitude": -65.218047
     },
     {
       "slug": "casa-del-bicentenario",
@@ -295,7 +311,9 @@
         "https://agendaculturalsmt.com/wp-content/uploads/2025/11/multimedia.grande.b8f00923641b4c46.Z3JhbmRlLndlYnA.webp"
       ],
       "legacy_url": "https://agendaculturalsmt.com/casa-del-bicentenario/",
-      "source_modified": "2026-03-31T17:05:51"
+      "source_modified": "2026-03-31T17:05:51",
+      "latitude": -26.828079,
+      "longitude": -65.253092
     },
     {
       "slug": "centro-cultural-mercedes-sosa",
@@ -325,7 +343,9 @@
         "https://agendaculturalsmt.com/wp-content/uploads/2025/11/multimedia.grande.98bef8d503e96cc7.UGludHVyYSAxX2dyYW5kZS53ZWJw.webp"
       ],
       "legacy_url": "https://agendaculturalsmt.com/centro-cultural-mercedes-sosa/",
-      "source_modified": "2026-03-31T16:58:28"
+      "source_modified": "2026-03-31T16:58:28",
+      "latitude": -26.840855,
+      "longitude": -65.207152
     },
     {
       "slug": "centro-cultural-don-bosco",
@@ -350,7 +370,9 @@
         "https://agendaculturalsmt.com/wp-content/uploads/2025/11/WhatsApp-Image-2025-11-13-at-9.34.40-AM1.jpeg"
       ],
       "legacy_url": "https://agendaculturalsmt.com/centro-cultural-don-bosco/",
-      "source_modified": "2026-03-31T17:02:15"
+      "source_modified": "2026-03-31T17:02:15",
+      "latitude": -26.822321,
+      "longitude": -65.224928
     }
   ]
 }

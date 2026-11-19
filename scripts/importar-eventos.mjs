@@ -66,9 +66,13 @@ async function eventOnCalendar() {
 
 async function knownPlaces(sql) {
   if (sql) return sql`select slug, name from public.places`;
-  // Sin base (prueba en seco local): los espacios relevados del sitio anterior.
-  const { espacios } = JSON.parse(await readFile(join(root, "db", "contenido", "espacios-culturales.json"), "utf8"));
-  return espacios.map(({ slug, name }) => ({ slug, name }));
+  // Sin base (prueba en seco local): los lugares relevados del sitio anterior.
+  const lugares = [];
+  for (const archivo of ["espacios-culturales.json", "espacios-al-aire-libre.json"]) {
+    const { espacios } = JSON.parse(await readFile(join(root, "db", "contenido", archivo), "utf8"));
+    lugares.push(...espacios.map(({ slug, name }) => ({ slug, name })));
+  }
+  return lugares;
 }
 
 // Las fotos van a MEDIA_DIR/eventos/wordpress/<año>/<mes>/ con su nombre original (WordPress repite nombres

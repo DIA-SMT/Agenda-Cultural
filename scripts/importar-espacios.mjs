@@ -1,10 +1,11 @@
 #!/usr/bin/env node
-// Carga en la base los espacios culturales relevados del sitio anterior (db/contenido/espacios-culturales.json)
-// y baja sus fotos a la carpeta de medios (MEDIA_DIR, por defecto ./media), que se publica en /media.
+// Carga en la base los lugares relevados del sitio anterior (db/contenido/espacios-culturales.json y
+// espacios-al-aire-libre.json) y baja sus fotos a la carpeta de medios (MEDIA_DIR, por defecto ./media),
+// que se publica en /media.
 //
-// Por defecto sólo agrega los lugares que faltan: si un lugar ya existe (por slug) no lo toca, así no pisa
-// lo que se haya editado después. Con --actualizar reemplaza los datos de los que ya existen.
-// Las fotos que ya están en disco no se vuelven a bajar.
+// Por defecto sólo agrega los lugares que faltan: si un lugar ya existe (por slug) no toca sus datos, así no
+// pisa lo que se haya editado después; sólo le completa las coordenadas si no tenía. Con --actualizar
+// reemplaza los datos de los que ya existen. Las fotos que ya están en disco no se vuelven a bajar.
 import { mkdir, readFile, stat, writeFile } from "node:fs/promises";
 import { basename, dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -19,7 +20,10 @@ if (!process.env.DATABASE_URL) {
   process.exit(1);
 }
 
-const { espacios } = JSON.parse(await readFile(join(root, "db", "contenido", "espacios-culturales.json"), "utf8"));
+const espacios = [];
+for (const archivo of ["espacios-culturales.json", "espacios-al-aire-libre.json"]) {
+  espacios.push(...JSON.parse(await readFile(join(root, "db", "contenido", archivo), "utf8")).espacios);
+}
 const sql = postgres(process.env.DATABASE_URL, { max: 1, onnotice: () => {} });
 
 // Devuelve la ruta pública (/media/lugares/<slug>/<archivo>) de la foto, bajándola si hace falta.
@@ -58,6 +62,8 @@ try {
       services: espacio.services,
       main_image_path: imagen.publica,
       gallery_paths: galeria.map((foto) => foto.publica),
+      latitude: espacio.latitude ?? null,
+      longitude: espacio.longitude ?? null,
       status: "published",
     };
     const columnas = Object.keys(datos);
@@ -66,9 +72,10 @@ try {
           on conflict (slug) do update set ${sql(datos, columnas.filter((c) => c !== "slug"))}
           returning (xmax = 0) as nuevo`
       : await sql`insert into public.places ${sql(datos, columnas)}
-          on conflict (slug) do nothing
-          returning true as nuevo`;
-    const estado = !fila ? "ya existía, sin cambios" : fila.nuevo ? "agregado" : "actualizado";
+          on conflict (slug) do update set latitude = excluded.latitude, longitude = excluded.longitude
+            where places.latitude is null and excluded.latitude is not null
+          returning (xmax = 0) as nuevo`;
+    const estado = !fila ? "ya existía, sin cambios" : fila.nuevo ? "agregado" : actualizar ? "actualizado" : "ya existía, se le sumaron las coordenadas";
     console.log(`${espacio.slug}: ${estado} (${galeria.length} fotos de galería)`);
   }
   console.log(`Listo: ${espacios.length} espacios, ${fotosBajadas} fotos nuevas en ${mediaDir}.`);

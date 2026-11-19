@@ -1,12 +1,13 @@
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowRight, Building2, Bus, Trees } from "lucide-react";
+import { ArrowRight, BedDouble, Building2, Bus, Car, Trees, UtensilsCrossed } from "lucide-react";
+import { ContentCard } from "@/components/content/content-card";
 import { DemoNotice } from "@/components/demo-notice";
 import { EventGrid } from "@/components/events/event-grid";
 import { Hero } from "@/components/hero";
 import { categoryEmoji } from "@/lib/category-emoji";
 import { isDatabaseConfigured } from "@/lib/db";
-import { BUS_TURISTICO_URL } from "@/lib/links";
+import { APP_CIUDAD_SMT, BUS_TURISTICO_URL } from "@/lib/links";
 import { formatLongDate } from "@/lib/format";
 import { getEvents, getPopularCategories } from "@/services/events";
 
@@ -65,12 +66,47 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
+      <section className="section shell home-musts" aria-labelledby="musts-title">
+        <div className="section-heading">
+          <div><p className="section-kicker">No te los pierdas</p><h2 id="musts-title">Imperdibles de la ciudad</h2></div>
+          <Link href="/espacios-al-aire-libre">Más al aire libre <ArrowRight size={18} /></Link>
+        </div>
+        <div className="event-grid">
+          <ContentCard
+            title="Ferias municipales"
+            text="Puntos de encuentro de artesanos, gastronomía y emprendimientos locales, ideales para recorrer y descubrir la identidad de la ciudad."
+            image="/images/contenido/ferias/portada.webp"
+            badge="Ferias"
+            href="/ferias-municipales"
+          />
+          <ContentCard
+            title="Pintamos la ciudad que queremos"
+            text="El muralismo local transforma la ciudad en un paseo artístico donde los vecinos comparten su expresión."
+            image="/images/contenido/murales/mural-04.webp"
+            badge="Murales"
+            href="/pintamos-la-ciudad-que-queremos"
+          />
+          <ContentCard
+            title="Museo a cielo abierto"
+            text="Un recorrido guiado por las esculturas del Parque 9 de Julio que pone en valor su patrimonio cultural y paisajístico."
+            image="/images/contenido/museo-a-cielo-abierto/portada.webp"
+            badge="Recorrido guiado"
+            href="/museo-escultorico-a-cielo-abierto"
+          />
+        </div>
+      </section>
+      <section className="shell visit-strip" aria-labelledby="visit-title">
+        <h2 id="visit-title" className="sr-only">Organizá tu visita</h2>
+        <Link href="/planifica-tu-viaje"><BedDouble aria-hidden="true" /><span><strong>Alojamiento</strong>Hoteles, hostels y departamentos</span><ArrowRight size={18} aria-hidden="true" /></Link>
+        <Link href="/gastronomia"><UtensilsCrossed aria-hidden="true" /><span><strong>Gastronomía</strong>Sabores típicos, bares y peñas</span><ArrowRight size={18} aria-hidden="true" /></Link>
+        <Link href="/planifica-tu-viaje"><Car aria-hidden="true" /><span><strong>Agencias y autos</strong>Excursiones y alquiler de autos</span><ArrowRight size={18} aria-hidden="true" /></Link>
+      </section>
       <section className="app-banner">
         <div className="shell app-banner-inner">
           <div><p className="section-kicker">Ciudad SMT</p><h2>La ciudad, también en tu celular</h2><p>Accedé a servicios municipales y novedades desde la aplicación oficial.</p></div>
           <div className="app-actions">
-            <a className="button button-light" href="https://play.google.com/store/apps/details?id=ar.gob.smt.ciudadana&hl=es_AR" rel="noreferrer">Google Play</a>
-            <a className="button button-outline-light" href="https://apps.apple.com/ar/app/ciudad-smt/id6743326258" rel="noreferrer">App Store</a>
+            <a className="button button-light" href={APP_CIUDAD_SMT.googlePlay} rel="noreferrer">Google Play</a>
+            <a className="button button-outline-light" href={APP_CIUDAD_SMT.appStore} rel="noreferrer">App Store</a>
           </div>
         </div>
       </section>

@@ -48,14 +48,16 @@ Los scripts leen `DATABASE_URL` de `.env` o `.env.local`. Las migraciones aplica
 
 ### Contenido del sitio anterior
 
-`db/contenido/espacios-culturales.json` tiene los 11 espacios culturales relevados de agendaculturalsmt.com (textos, horarios, contacto y las URLs de sus fotos). Sin base de datos, el sitio los muestra desde ese archivo. Para cargarlos en la base y bajar las fotos a `MEDIA_DIR`:
+`db/contenido/espacios-culturales.json` tiene los 11 espacios culturales relevados de agendaculturalsmt.com y `db/contenido/espacios-al-aire-libre.json`, los 5 parques y las 5 plazas (textos, horarios, contacto, coordenadas y las URLs de sus fotos). Sin base de datos, el sitio los muestra desde esos archivos. Para cargarlos en la base y bajar las fotos a `MEDIA_DIR`:
 
 ```bash
-npm run db:espacios                  # agrega los que falten; no pisa lugares ya cargados
+npm run db:espacios                  # agrega los que falten; a los que ya están sólo les completa las coordenadas
 npm run db:espacios -- --actualizar  # reemplaza los datos de los que ya existen
 ```
 
-Las URLs viejas (`/casa-historica/`) redirigen a `/lugares/<slug>`.
+Las URLs viejas (`/casa-historica/`, `/parque-avellaneda/`) redirigen a `/lugares/<slug>`, y `/donde-y-que-comer`, `/plazas-y-parques`, `/plazas`, `/parques`, `/faqs` y `/mapas-y-guias` a sus páginas nuevas.
+
+Las páginas de contenido fijo del sitio anterior (gastronomía, patrimonio histórico, nuestra ciudad, planificá tu viaje, guías, oficinas, preguntas frecuentes, ferias municipales, «Pintamos la ciudad que queremos» y el museo escultórico a cielo abierto) tienen su texto en el código de cada página (`src/app/<ruta>/page.tsx`) y sus fotos en `public/images/contenido/`.
 
 La aplicación es la única que se conecta a la base: el sitio público sólo consulta contenido publicado y los permisos de edición se resolverán en el servidor cuando se habilite la autenticación del panel.
 

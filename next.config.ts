@@ -1,9 +1,11 @@
 import type { NextConfig } from "next";
+import aireLibre from "./db/contenido/espacios-al-aire-libre.json";
 import contenido from "./db/contenido/espacios-culturales.json";
 import { BUS_TURISTICO_URL } from "./src/lib/links";
 
-// En el sitio anterior cada espacio colgaba de la raíz (/casa-historica/); acá vive en /lugares/<slug>.
-const legacyPlaceRedirects = contenido.espacios.map(({ slug }) => ({
+// En el sitio anterior cada espacio colgaba de la raíz (/casa-historica/, /parque-avellaneda/); acá vive en
+// /lugares/<slug>. Las plazas no tenían página propia, pero la redirección no molesta.
+const legacyPlaceRedirects = [...contenido.espacios, ...aireLibre.espacios].map(({ slug }) => ({
   source: `/${slug}`,
   destination: `/lugares/${slug}`,
   permanent: true,
@@ -35,6 +37,10 @@ const nextConfig: NextConfig = {
       { source: "/bus-turistico-smt", destination: BUS_TURISTICO_URL, permanent: false },
       { source: "/faqs", destination: "/preguntas-frecuentes", permanent: true },
       { source: "/mapas-y-guias", destination: "/guias", permanent: true },
+      { source: "/donde-y-que-comer", destination: "/gastronomia", permanent: true },
+      { source: "/plazas-y-parques", destination: "/espacios-al-aire-libre", permanent: true },
+      { source: "/plazas", destination: "/espacios-al-aire-libre", permanent: true },
+      { source: "/parques", destination: "/espacios-al-aire-libre", permanent: true },
       ...legacyPlaceRedirects,
       // Los eventos del sitio anterior colgaban de /www.agendaculturalsmt.com/events/<slug>/ (un error de
       // configuración de WordPress) o de /events/<slug>/. El importador conserva el slug.
