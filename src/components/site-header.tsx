@@ -4,11 +4,12 @@ import Image from "next/image";
 import Link from "next/link";
 import { Menu, Search, X } from "lucide-react";
 import { useState } from "react";
+import { BUS_TURISTICO_URL } from "@/lib/links";
 
 const navigation = [
   { href: "/agenda", label: "Qué hacer" },
   { href: "/lugares", label: "Dónde ir" },
-  { href: "/bus-turistico", label: "Bus Turístico" },
+  { href: BUS_TURISTICO_URL, label: "Bus Turístico" },
   { href: "/planifica-tu-viaje", label: "Info útil" },
 ];
 

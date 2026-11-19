@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { BUS_TURISTICO_URL } from "@/lib/links";
 
 export function SiteFooter() {
   return (
@@ -13,7 +14,7 @@ export function SiteFooter() {
           <h2>Agenda</h2>
           <Link href="/agenda">Todos los eventos</Link>
           <Link href="/agenda?free=1">Actividades gratuitas</Link>
-          <Link href="/bus-turistico">Bus Turístico</Link>
+          <a href={BUS_TURISTICO_URL}>Bus Turístico</a>
         </div>
         <div>
           <h2>Visitá la ciudad</h2>
