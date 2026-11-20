@@ -3,27 +3,13 @@
 import { ArrowRight, CalendarDays, MapPin, Search } from "lucide-react";
 import Link from "next/link";
 import { useRef } from "react";
-import type { Category } from "@/types/domain";
-
-const fixedLinks = [
-  { label: "Hoy", query: "range=today" },
-  { label: "Este fin de semana", query: "range=weekend" },
-  { label: "Gratis", query: "free=1" },
-];
 
 type HeroProps = {
   todayLabel: string;
   hasOfficialData: boolean;
-  /** Categorías con actividades por venir (la portada pasa las más concurridas). */
-  categories: Pick<Category, "slug" | "name">[];
 };
 
-export function Hero({ todayLabel, hasOfficialData, categories }: HeroProps) {
-  const quickLinks = [
-    ...fixedLinks,
-    ...categories.map((category) => ({ label: category.name, query: `category=${encodeURIComponent(category.slug)}` })),
-  ];
-
+export function Hero({ todayLabel, hasOfficialData }: HeroProps) {
   const sectionRef = useRef<HTMLElement>(null);
 
   function handlePointerMove(event: React.PointerEvent<HTMLElement>) {
@@ -63,9 +49,6 @@ export function Hero({ todayLabel, hasOfficialData, categories }: HeroProps) {
           <input id="hero-query" name="q" type="search" placeholder="Buscar eventos, lugares o actividades…" />
           <button type="submit">Buscar</button>
         </form>
-        <nav className="quick-links" aria-label="Búsquedas rápidas">
-          {quickLinks.map((item) => <Link key={item.label} href={`/agenda?${item.query}`}>{item.label}</Link>)}
-        </nav>
       </div>
     </section>
   );

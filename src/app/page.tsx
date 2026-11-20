@@ -26,7 +26,7 @@ export default async function HomePage() {
 
   return (
     <>
-      <Hero todayLabel={formatLongDate(new Date())} hasOfficialData={isDatabaseConfigured} categories={categories.slice(0, 3)} />
+      <Hero todayLabel={formatLongDate(new Date())} hasOfficialData={isDatabaseConfigured} />
       <div className="shell"><DemoNotice /></div>
       <section className="section shell" aria-labelledby="next-events">
         <div className="section-heading">
