@@ -1,5 +1,14 @@
 import { describe, expect, it } from "vitest";
-import { addDays, endOfDay, isIsoDate, startOfDay, todayInTucuman, weekendRange } from "./dates";
+import { addDays, endOfDay, isIsoDate, startOfDay, todayInTucuman, tucumanDate, weekendRange } from "./dates";
+
+describe("tucumanDate", () => {
+  it("matches the Intl date in Tucumán, before and after local midnight", () => {
+    for (const instant of ["2026-11-20T02:59:59Z", "2026-11-20T03:00:00Z", "2026-06-30T23:30:00-03:00"]) {
+      expect(tucumanDate(instant)).toBe(todayInTucuman(new Date(instant)));
+    }
+    expect(tucumanDate(Date.parse("2026-11-21T01:30:00-03:00"))).toBe("2026-11-21");
+  });
+});
 
 describe("Tucumán dates", () => {
   it("uses the local day, not the UTC one", () => expect(todayInTucuman(new Date("2026-11-19T02:00:00Z"))).toBe("2026-11-18"));

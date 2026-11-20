@@ -1,21 +1,28 @@
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowRight, BedDouble, Building2, Bus, Car, Trees, UtensilsCrossed } from "lucide-react";
+import { WeekStrip } from "@/components/agenda/week-strip";
 import { ContentCard } from "@/components/content/content-card";
 import { DemoNotice } from "@/components/demo-notice";
 import { EventGrid } from "@/components/events/event-grid";
 import { Hero } from "@/components/hero";
 import { categoryEmoji } from "@/lib/category-emoji";
+import { addDays, todayInTucuman } from "@/lib/dates";
 import { isDatabaseConfigured } from "@/lib/db";
 import { APP_CIUDAD_SMT, BUS_TURISTICO_URL } from "@/lib/links";
 import { formatLongDate } from "@/lib/format";
-import { getEvents, getPopularCategories } from "@/services/events";
+import { getCalendarDays, getEvents, getPopularCategories } from "@/services/events";
 
 // La portada se prerenderiza; se regenera cada 5 minutos para reflejar la agenda y la fecha del día.
 export const revalidate = 300;
 
 export default async function HomePage() {
-  const [events, categories] = await Promise.all([getEvents({ pageSize: 3 }), getPopularCategories(4)]);
+  const today = todayInTucuman();
+  const [events, categories, week] = await Promise.all([
+    getEvents({ pageSize: 3 }),
+    getPopularCategories(4),
+    getCalendarDays({}, today, addDays(today, 6)),
+  ]);
 
   return (
     <>
@@ -27,6 +34,7 @@ export default async function HomePage() {
           <Link href="/agenda">Ver agenda completa <ArrowRight size={18} /></Link>
         </div>
         <EventGrid events={events.items} />
+        <WeekStrip today={today} days={week.days} />
       </section>
       {categories.length > 0 && <section className="category-section">
         <div className="shell">
