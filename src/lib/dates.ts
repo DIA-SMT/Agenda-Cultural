@@ -17,6 +17,14 @@ export function todayInTucuman(now = new Date()) {
   return isoDateFormatter.format(now);
 }
 
+const UTC_OFFSET_MS = -3 * 60 * 60 * 1000;
+
+/** Fecha de Tucumán (AAAA-MM-DD) de un instante, sin Intl: el calendario la calcula miles de veces por pedido. */
+export function tucumanDate(instant: number | string) {
+  const time = typeof instant === "string" ? Date.parse(instant) : instant;
+  return new Date(time + UTC_OFFSET_MS).toISOString().slice(0, 10);
+}
+
 export function addDays(date: string, days: number) {
   const value = new Date(`${date}T00:00:00Z`);
   value.setUTCDate(value.getUTCDate() + days);

@@ -39,8 +39,13 @@ export function formatEventDate(value: string, now = new Date()) {
   return year === yearFormatter.format(now) ? label : `${label} ${year}`;
 }
 
+/** "18:30" */
+export function formatClock(value: string) {
+  return timeFormatter.format(new Date(value));
+}
+
 export function formatEventTime(value: string) {
-  return `${timeFormatter.format(new Date(value))} h`;
+  return `${formatClock(value)} h`;
 }
 
 export function accessLabel(accessType: "free" | "paid" | "check", price?: string) {
